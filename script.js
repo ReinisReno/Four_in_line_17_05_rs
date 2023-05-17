@@ -5,5 +5,3 @@ for (let index = 0; index < 100; index++) {
     const new_cell = template.content.firstElementChild.cloneNode(true);
     template.parentElement.append(new_cell);
 }
-
-fsdfdsfdsffdfd
