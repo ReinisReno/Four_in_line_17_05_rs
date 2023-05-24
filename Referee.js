@@ -2,6 +2,7 @@ class Referee
 {
   constructor(size = 10) {
     this.size = size;
+    this.expected_matches = 3;
 
     const STAY = 0,
           LEFT = -1,
@@ -13,14 +14,14 @@ class Referee
       /* Horizontal line */
       [ [STAY, RIGHT], [STAY, LEFT] ],
       /* Vertical line */
-      [ [DOWN, STAY] ],
+      [ [DOWN, STAY], [UP, STAY] ],
       /* dioganal_up_right line */
       [ [UP, RIGHT], [DOWN, LEFT] ],
       /* dioganal_down_right line */
       [ [DOWN, RIGHT], [UP, LEFT] ]
     ];
   }
-  
+
   checkWinner(moves, id) {
     this.moves = moves;
     const symbol = moves[id],
@@ -42,7 +43,7 @@ class Referee
       match_count += this.countMatchesOneDirection(symbol, y, x, vector);
     }
 
-    if (match_count >= 3) {
+    if (match_count >= this.expected_matches) {
       return true;
     }
     return false
@@ -50,13 +51,13 @@ class Referee
 
   countMatchesOneDirection (symbol, y, x, vector) {
     let match_count = 0;
-    for (let step = 1; step <= 3; step++) {
+    for (let step = 1; step <= this.expected_matches; step++) {
       y += vector[0];
       x += vector[1];
       if (symbol != this.getSymbol(y, x)) {
         break;
       }
-      
+
       match_count++;
     }
 
