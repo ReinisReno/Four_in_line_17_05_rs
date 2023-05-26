@@ -14,7 +14,7 @@ class Referee
       /* Horizontal line */
       [ [STAY, RIGHT], [STAY, LEFT] ],
       /* Vertical line */
-      [ [DOWN, STAY], [UP, STAY] ],
+      [ [DOWN, STAY] ],
       /* dioganal_up_right line */
       [ [UP, RIGHT], [DOWN, LEFT] ],
       /* dioganal_down_right line */
