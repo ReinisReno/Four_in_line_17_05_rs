@@ -1,5 +1,7 @@
 const board = document.querySelector('.game_board');
 const template = document.querySelector('#game_cell');
+const popup = document.querySelector('.popup');
+const message_el = popup.querySelector('.message');
 let count = 0;
 let size = 10;
 let referee = new Referee(size);
@@ -27,7 +29,22 @@ function clickHandle () {
   this.textContent = symbol;
 
   if (referee.checkWinner(moves, id)) {
-    console.log("Player " + symbol + ' has won the game!');
+    showMessage("Player " + symbol + ' has won the game!');
   }
+}
+
+popup.addEventListener('click', function (event) {
+  if (event.target.classList.contains('popup')) {
+    hideMessage();
+  }
+})
+
+function showMessage(message) {
+  popup.classList.add('open');
+  message_el.textContent = message;
+}
+
+function hideMessage() {
+  popup.classList.remove('open');
 }
 
