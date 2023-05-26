@@ -5,7 +5,9 @@ const message_el = popup.querySelector('.message');
 let count = 0;
 let size = 10;
 let referee = new Referee(size);
+let storage = new Storage('four_in_line');
 let moves = {};
+let entries = storage.getEntries();
 
 for (let index = 0; index < size*size; index++) {
   const new_cell = template.content.firstElementChild.cloneNode(true);
@@ -13,6 +15,16 @@ for (let index = 0; index < size*size; index++) {
   board.append(new_cell);
   new_cell.addEventListener('click', clickHandle);
 }
+
+for (const id in entries) {
+  const entry = entries[id];
+  board.children[id].textContent = entry.symbol;
+  moves[id] = entry.symbol;
+  count++;
+}
+
+document.querySelector('.reset').addEventListener('click', resetHandle);
+document.querySelector('.reset_game').addEventListener('click', resetHandle);
 
 function clickHandle () {
   const id = Number(this.dataset.id);
@@ -27,6 +39,11 @@ function clickHandle () {
   const symbol = (++count % 2 == 0) ? 'o' : 'x';
   moves[id] = symbol;
   this.textContent = symbol;
+
+  storage.add(
+    id,
+    {symbol: symbol}
+  );
 
   if (referee.checkWinner(moves, id)) {
     showMessage("Player " + symbol + ' has won the game!');
@@ -48,3 +65,12 @@ function hideMessage() {
   popup.classList.remove('open');
 }
 
+function resetHandle () {
+  for (const id in moves) {
+    board.children[id].textContent = '';
+  }
+  storage.clear();
+  count = 0;
+  moves = {};
+  hideMessage();
+}
